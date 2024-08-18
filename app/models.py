@@ -7,7 +7,7 @@ from datetime import datetime
 class Board(Base):
     __tablename__ = "boards"
     id = Column(Integer, primary_key=True, index=True)
-    board_name = Column(String, unique=True, index=True)
+    board_code = Column(String, unique=True, index=True)
     country_code = Column(String, ForeignKey("countries.country_code"))
     state = Column(String)
 
@@ -46,7 +46,17 @@ class Class(Base):
     id = Column(Integer, primary_key=True, index=True)
     class_code = Column(String, unique=True, index=True)
     class_name = Column(String)
-    board_code = Column(String, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.id"))
+
+# class Classes(Base):
+#     __tablename__ = 'classes'
+
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     class_code = Column(String)
+#     class_name = Column(String)
+#     board_code = Column(String)
+#     board = Column(Integer, ForeignKey('boards.id'))
+
 
 class Subject(Base):
     __tablename__ = "subjects"
@@ -54,7 +64,7 @@ class Subject(Base):
     subject_code = Column(String, unique=True, index=True)
     class_code = Column(String, ForeignKey("classes.class_code"))
     subject_name = Column(String)
-    board_code = Column(String, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.id"))
 
 class Chapter(Base):
     __tablename__ = "chapters"
@@ -63,7 +73,7 @@ class Chapter(Base):
     subject_code = Column(String, ForeignKey("subjects.subject_code"))
     class_code = Column(String, ForeignKey("classes.class_code"))
     chapter_name = Column(String)
-    board_code = Column(String, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.id"))
 
 class ChapterContent(Base):
     __tablename__ = "chapter_contents"

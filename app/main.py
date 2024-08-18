@@ -4,13 +4,14 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.routers import (
-    users, boards, languages, countries, states, classes, subjects,
+    auth_file, users, boards, languages, countries, states, classes, subjects,
     chapters, chapter_contents, profiles, tests, test_results, user_progress,
     chapter_progress, topic_progress, certificates, admin
 )
 from app.database import engine, SessionLocal
 from app import models, schemas, auth
 from fastapi.middleware.cors import CORSMiddleware
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -23,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_file.router)
 app.include_router(users.router)
 app.include_router(boards.router)
 app.include_router(languages.router)

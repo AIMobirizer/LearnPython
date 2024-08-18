@@ -246,10 +246,203 @@ class Certificate(CertificateBase):
     class Config:
         orm_mode = True
 
+# class Token(BaseModel):
+#     access_token: str
+#     token_type: str
+
+# class TokenData(BaseModel):
+#     username: Optional[str] = None
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+# class UserBase(BaseModel):
+#     email: str
+#     experience_level: str
+
+# class UserCreate(UserBase):
+#     password: str
+
+class UserResponse(UserBase):
+    id: int
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
 class Token(BaseModel):
     access_token: str
     token_type: str
 
 class TokenData(BaseModel):
-    username: Optional[str] = None
-            
+    email: Optional[str] = None
+
+class TechnologyBase(BaseModel):
+    name: str
+
+class TechnologyCreate(TechnologyBase):
+    pass
+
+class TechnologyResponse(TechnologyBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class TopicBase(BaseModel):
+    technology_id: int
+    name: str
+    description: str
+
+class TopicCreate(TopicBase):
+    pass
+
+class TopicResponse(TopicBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class VideoBase(BaseModel):
+    topic_id: int
+    url: str
+    title: str
+    description: str
+
+class VideoCreate(VideoBase):
+    pass
+
+class VideoResponse(VideoBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class QuestionBase(BaseModel):
+    video_id: int
+    question_type: str
+    question_text: str
+
+class QuestionCreate(QuestionBase):
+    pass
+
+class QuestionResponse(QuestionBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class AnswerBase(BaseModel):
+    question_id: int
+    user_id: int
+    answer_text: str
+    is_correct: bool
+
+class AnswerCreate(AnswerBase):
+    pass
+
+class AnswerResponse(AnswerBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class ProgressBase(BaseModel):
+    user_id: int
+    topic_id: int
+    completed_videos: int
+    total_videos: int   
+
+class ProgressCreate(ProgressBase):
+    pass
+
+class ProgressResponse(ProgressBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class BadgeBase(BaseModel):
+    name: str
+    description: str
+
+class BadgeCreate(BadgeBase):
+    pass
+
+class BadgeResponse(BadgeBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class UserBadgeBase(BaseModel):
+    user_id: int
+    badge_id: int
+
+class UserBadgeCreate(UserBadgeBase):
+    pass
+
+class UserBadgeResponse(UserBadgeBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class NotificationBase(BaseModel):
+    user_id: int
+    message: str
+    is_read: bool
+
+class NotificationCreate(NotificationBase):
+    pass
+
+class NotificationResponse(NotificationBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class CertificateBase(BaseModel):
+    user_id: int
+    topic_id: int
+    certificate_url: str
+
+class CertificateCreate(CertificateBase):
+    pass
+
+class CertificateResponse(CertificateBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+       

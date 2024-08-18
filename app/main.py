@@ -4,16 +4,22 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.routers import (
-    users, boards, languages, countries, states, classes, subjects,
+    auth_file, users, boards, languages, countries, states, classes, subjects,
     chapters, chapter_contents, profiles, tests, test_results, user_progress,
-    chapter_progress, topic_progress, certificates, admin
+    chapter_progress, topic_progress, certificates, admin, technologies, 
+    topics, videos, questions, answers, progress, badges, notifications
 )
 from app.database import engine, SessionLocal
 from app import models, schemas, auth
 from fastapi.middleware.cors import CORSMiddleware
-models.Base.metadata.create_all(bind=engine)
+from .models import Base
+from .database import get_db
 
 app = FastAPI()
+
+models.Base.metadata.create_all(bind=engine)
+
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +28,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+app.include_router(auth_file.router)
 app.include_router(users.router)
 app.include_router(boards.router)
 app.include_router(languages.router)
@@ -34,12 +40,22 @@ app.include_router(chapters.router)
 app.include_router(chapter_contents.router)
 app.include_router(profiles.router)
 app.include_router(tests.router)
+app.include_router(topics.router)
 app.include_router(test_results.router)
+app.include_router(technologies.router)
 app.include_router(user_progress.router)
 app.include_router(chapter_progress.router)
 app.include_router(topic_progress.router)
 app.include_router(certificates.router)
 app.include_router(admin.router)
+app.include_router(videos.router)
+app.include_router(questions.router)
+app.include_router(answers.router)
+app.include_router(progress.router)
+app.include_router(badges.router)
+app.include_router(notifications.router)
+# app.include_router(certificates.router)
+
 
 @app.post("/token", response_model=schemas.Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(SessionLocal)):

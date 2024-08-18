@@ -46,7 +46,17 @@ class Class(Base):
     id = Column(Integer, primary_key=True, index=True)
     class_code = Column(String, unique=True, index=True)
     class_name = Column(String)
-    board_code = Column(String, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.id"))
+
+# class Classes(Base):
+#     __tablename__ = 'classes'
+
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     class_code = Column(String)
+#     class_name = Column(String)
+#     board_code = Column(String)
+#     board = Column(Integer, ForeignKey('boards.id'))
+
 
 class Subject(Base):
     __tablename__ = "subjects"
@@ -54,7 +64,7 @@ class Subject(Base):
     subject_code = Column(String, unique=True, index=True)
     class_code = Column(String, ForeignKey("classes.class_code"))
     subject_name = Column(String)
-    board_code = Column(String, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.id"))
 
 class Chapter(Base):
     __tablename__ = "chapters"
@@ -63,7 +73,7 @@ class Chapter(Base):
     subject_code = Column(String, ForeignKey("subjects.subject_code"))
     class_code = Column(String, ForeignKey("classes.class_code"))
     chapter_name = Column(String)
-    board_code = Column(String, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.id"))
 
 class ChapterContent(Base):
     __tablename__ = "chapter_contents"
@@ -89,6 +99,7 @@ class User(Base):
 
 class Profile(Base):
     __tablename__ = "profiles"
+    id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     student_name = Column(String)
@@ -99,6 +110,7 @@ class Profile(Base):
 
 class Test(Base):
     __tablename__ = "tests"
+    id = Column(Integer, primary_key=True, index=True)
     test_id = Column(Integer, primary_key=True, index=True)
     topic_id = Column(Integer, ForeignKey("chapter_contents.id"))
     type = Column(String)
@@ -106,6 +118,7 @@ class Test(Base):
 
 class TestResult(Base):
     __tablename__ = "test_results"
+    id = Column(Integer, primary_key=True, index=True)
     result_id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("profiles.profile_id"))
     test_id = Column(Integer, ForeignKey("tests.test_id"))
@@ -115,6 +128,7 @@ class TestResult(Base):
 
 class UserProgress(Base):
     __tablename__ = "user_progress"
+    id = Column(Integer, primary_key=True, index=True)
     progress_id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("profiles.profile_id"))
     subject_id = Column(Integer, ForeignKey("subjects.id"))
@@ -127,6 +141,7 @@ class UserProgress(Base):
 
 class ChapterProgress(Base):
     __tablename__ = "chapter_progress"
+    id = Column(Integer, primary_key=True, index=True)
     chapter_progress_id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("profiles.profile_id"))
     chapter_id = Column(Integer, ForeignKey("chapters.id"))
@@ -135,6 +150,7 @@ class ChapterProgress(Base):
 
 class TopicProgress(Base):
     __tablename__ = "topic_progress"
+    id = Column(Integer, primary_key=True, index=True)
     topic_progress_id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("profiles.profile_id"))
     topic_id = Column(Integer, ForeignKey("chapter_contents.id"))
@@ -143,8 +159,102 @@ class TopicProgress(Base):
 
 class Certificate(Base):
     __tablename__ = "certificates"
+    id = Column(Integer, primary_key=True, index=True)
     certificate_id = Column(Integer, primary_key=True, index=True)
     result_id = Column(Integer, ForeignKey("test_results.result_id"))
     issue_date = Column(DateTime, default=datetime.utcnow)
     certificate_url = Column(String)
             
+            
+
+
+class Technology(Base):
+    __tablename__ = "technologies"
+    id = Column(Integer, primary_key=True, index=True)
+    # Removed technology_id from being a primary key
+    technology_id = Column(Integer, index=True)
+    name = Column(String, unique=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class Topic(Base):
+    __tablename__ = "topics"
+    id = Column(Integer, primary_key=True, index=True)
+    topic_id = Column(Integer, index=True)
+    # Changed the ForeignKey reference to match the new Technology table definition
+    technology_id = Column(Integer, ForeignKey("technologies.id"))
+    name = Column(String)
+    description = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class Video(Base):
+    __tablename__ = "videos"
+    id = Column(Integer, primary_key=True, index=True)
+    # video_id = Column(Integer, primary_key=True, index=True)
+    topic_id = Column(Integer, ForeignKey("topics.id"))
+    url = Column(String)
+    title = Column(String)
+    description = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class Question(Base):
+    __tablename__ = "questions"
+    id = Column(Integer, primary_key=True, index=True)
+    # question_id = Column(Integer, primary_key=True, index=True)
+    video_id = Column(Integer, ForeignKey("videos.id"))
+    question_type = Column(String)
+    question_text = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class Answer(Base):
+    __tablename__ = "answers"
+    id = Column(Integer, primary_key=True, index=True)
+    # answer_id = Column(Integer, primary_key=True, index=True)
+    question_id = Column(Integer, ForeignKey("questions.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    answer_text = Column(String)
+    is_correct = Column(Boolean)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class Progress(Base):
+    __tablename__ = "progress"
+    id = Column(Integer, primary_key=True, index=True)
+    # progress_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    topic_id = Column(Integer, ForeignKey("topics.id"))
+    completed_videos = Column(Integer)
+    total_videos = Column(Integer)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class Badge(Base):
+    __tablename__ = "badges"
+    id = Column(Integer, primary_key=True, index=True)
+    # badge_id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    description = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+class UserBadge(Base):
+    __tablename__ = "user_badges"
+    id = Column(Integer, primary_key=True, index=True)
+    # user_badge_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    badge_id = Column(Integer, ForeignKey("badges.id"))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Notification(Base):
+    __tablename__ = "notifications"
+    id = Column(Integer, primary_key=True, index=True)
+    # notification_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    message = Column(String)
+    is_read = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+metadata = Base.metadata

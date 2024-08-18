@@ -11,7 +11,7 @@ def get_boards(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Board).offset(skip).limit(limit).all()
 
 def create_board(db: Session, board: schemas.BoardCreate):
-    db_board = models.Board(board_name=board.board_name, country_code=board.country_code, state=board.state)
+    db_board = models.Board(board_code=board.board_code, country_code=board.country_code, state=board.state)
     db.add(db_board)
     db.commit()
     db.refresh(db_board)

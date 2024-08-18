@@ -21,8 +21,8 @@ def get_db():
 def insert_master_data(db: Session = Depends(get_db)):
     # Insert sample data for boards
     board_data = [
-        {"board_name": "CBSE", "country_code": "IN", "state": "Delhi"},
-        {"board_name": "ICSE", "country_code": "IN", "state": "Delhi"}
+        {"board_code": "CBSE", "country_code": "IN", "state": "Delhi"},
+        {"board_code": "ICSE", "country_code": "IN", "state": "Delhi"}
     ]
     for data in board_data:
         board = schemas.BoardCreate(**data)

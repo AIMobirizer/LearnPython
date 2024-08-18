@@ -4,7 +4,7 @@ from typing import Optional
 from datetime import datetime
 
 class BoardBase(BaseModel):
-    board_name: str
+    board_code: str
     country_code: str
     state: str
 

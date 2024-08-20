@@ -22,7 +22,7 @@ class Language(Base):
 
 class BoardLanguage(Base):
     __tablename__ = "board_languages"
-    board_code = Column(Integer, ForeignKey("boards.board_code"), primary_key=True)
+    board_code = Column(String, ForeignKey("boards.board_code"), primary_key=True)
     language_id = Column(Integer, ForeignKey("languages.id"), primary_key=True)
 
     board = relationship("Board", back_populates="languages")
@@ -104,7 +104,7 @@ class Profile(Base):
     student_name = Column(String)
     age = Column(Integer)
     school_name = Column(String)
-    board_code = Column(Integer, ForeignKey("boards.board_code"))
+    board_code = Column(String, ForeignKey("boards.board_code"))
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Test(Base):

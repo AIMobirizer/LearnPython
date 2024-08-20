@@ -141,7 +141,7 @@ class ProfileBase(BaseModel):
     student_name: str
     age: int
     school_name: str
-    board_id: int
+    board_code: str
 
 class ProfileCreate(ProfileBase):
     pass

@@ -19,8 +19,9 @@ from sqlalchemy.orm import sessionmaker
 # Replace with your actual PostgreSQL credentials
 
 # DATABASE_URL=postgres://postgress:Bong111BBB@prod2.c63jwtlancxa.ap-south-1.rds.amazonaws.com:5432/postgres
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:PostgresQl@learningapp.ch68meauc40x.ap-south-1.rds.amazonaws.com:5432/learningdb"
-
+# SQLALCHEMY_DATABASE_URL = "postgresql://postgres:PostgresQl@learningapp.ch68meauc40x.ap-south-1.rds.amazonaws.com:5432/learningdb"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:PostgresQl@learningapp.ch68meauc40x.ap-south-1.rds.amazonaws.com:5432/ldb_v1"
+ 
 import sqlalchemy
 # sqlalchemy.url = "postgresql://postgres:PostgresQl@learningapp.ch68meauc40x.ap-south-1.rds.amazonaws.com:5432/postgres"
 

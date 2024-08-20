@@ -22,7 +22,7 @@ class Language(Base):
 
 class BoardLanguage(Base):
     __tablename__ = "board_languages"
-    board_id = Column(Integer, ForeignKey("boards.id"), primary_key=True)
+    board_code = Column(Integer, ForeignKey("boards.board_code"), primary_key=True)
     language_id = Column(Integer, ForeignKey("languages.id"), primary_key=True)
 
     board = relationship("Board", back_populates="languages")
@@ -46,7 +46,7 @@ class Class(Base):
     id = Column(Integer, primary_key=True, index=True)
     class_code = Column(String, unique=True, index=True)
     class_name = Column(String)
-    board_code = Column(Integer, ForeignKey("boards.id"))
+    board_code = Column(String, ForeignKey("boards.board_code"))
 
 # class Classes(Base):
 #     __tablename__ = 'classes'
@@ -55,7 +55,7 @@ class Class(Base):
 #     class_code = Column(String)
 #     class_name = Column(String)
 #     board_code = Column(String)
-#     board = Column(Integer, ForeignKey('boards.id'))
+#     board = Column(Integer, ForeignKey('boards.board_code'))
 
 
 class Subject(Base):
@@ -64,7 +64,7 @@ class Subject(Base):
     subject_code = Column(String, unique=True, index=True)
     class_code = Column(String, ForeignKey("classes.class_code"))
     subject_name = Column(String)
-    board_code = Column(Integer, ForeignKey("boards.id"))
+    board_code = Column(String, ForeignKey("boards.board_code"))
 
 class Chapter(Base):
     __tablename__ = "chapters"
@@ -73,7 +73,7 @@ class Chapter(Base):
     subject_code = Column(String, ForeignKey("subjects.subject_code"))
     class_code = Column(String, ForeignKey("classes.class_code"))
     chapter_name = Column(String)
-    board_code = Column(Integer, ForeignKey("boards.id"))
+    board_code = Column(String, ForeignKey("boards.board_code"))
 
 class ChapterContent(Base):
     __tablename__ = "chapter_contents"
@@ -104,7 +104,7 @@ class Profile(Base):
     student_name = Column(String)
     age = Column(Integer)
     school_name = Column(String)
-    board_id = Column(Integer, ForeignKey("boards.id"))
+    board_code = Column(Integer, ForeignKey("boards.board_code"))
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Test(Base):

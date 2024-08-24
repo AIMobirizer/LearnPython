@@ -32,4 +32,10 @@ def read_class(class_id: int, db: Session = Depends(get_db)):
     if db_class is None:
         raise HTTPException(status_code=404, detail="Class not found")
     return db_class
-                
+
+@router.delete("/{class_id}", response_model=schemas.Class)
+def delete_class(class_id: int, db: Session = Depends(get_db)):
+    db_class = crud.delete_class(db, class_id=class_id)
+    if db_class is None:
+        raise HTTPException(status_code=404, detail="Class not found")
+    return db_class                

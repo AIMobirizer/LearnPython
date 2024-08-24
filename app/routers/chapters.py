@@ -32,4 +32,12 @@ def read_chapter(chapter_id: int, db: Session = Depends(get_db)):
     if db_chapter is None:
         raise HTTPException(status_code=404, detail="Chapter not found")
     return db_chapter
-                
+
+@router.delete("/{chapter_id}", response_model=schemas.Chapter)
+def delete_chapter(chapter_id: int, db: Session = Depends(get_db)):
+    db_chapter = crud.get_chapter(db, chapter_id=chapter_id)
+    if db_chapter is None:
+        raise HTTPException(status_code=404, detail="Chapter not found")
+    
+    crud.delete_chapter(db, chapter_id=chapter_id)
+    return db_chapter                                    

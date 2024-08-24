@@ -32,4 +32,12 @@ def read_chapter_progress(chapter_progress_id: int, db: Session = Depends(get_db
     if db_chapter_progress is None:
         raise HTTPException(status_code=404, detail="ChapterProgress not found")
     return db_chapter_progress
-                
+
+@router.delete("/{chapter_progress_id}", response_model=schemas.ChapterProgress)
+def delete_chapter_progress(chapter_progress_id: int, db: Session = Depends(get_db)):
+    db_chapter_progress = crud.get_chapter_progress(db, chapter_progress_id=chapter_progress_id)
+    if db_chapter_progress is None:
+        raise HTTPException(status_code=404, detail="UserProgress not found")
+    
+    crud.delete_chapter_progress(db, chapter_progress_id=chapter_progress_id)
+    return db_chapter_progress                   

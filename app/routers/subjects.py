@@ -32,4 +32,12 @@ def read_subject(subject_id: int, db: Session = Depends(get_db)):
     if db_subject is None:
         raise HTTPException(status_code=404, detail="Subject not found")
     return db_subject
-                
+
+@router.delete("/{subject_id}", response_model=schemas.Subject)
+def delete_subject(subject_id: int, db: Session = Depends(get_db)):
+    db_subject = crud.get_board(db, subject_id=subject_id)
+    if db_subject is None:
+        raise HTTPException(status_code=404, detail="Subject not found")
+    
+    crud.delete_board(db, subject_id=subject_id)
+    return db_subject                    

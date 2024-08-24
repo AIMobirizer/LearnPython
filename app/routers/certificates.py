@@ -32,4 +32,12 @@ def read_certificate(certificate_id: int, db: Session = Depends(get_db)):
     if db_certificate is None:
         raise HTTPException(status_code=404, detail="Certificate not found")
     return db_certificate
-                
+
+@router.delete("/{certificate_id}", response_model=schemas.Certificate)
+def delete_certificate(certificate_id: int, db: Session = Depends(get_db)):
+    db_certificate = crud.get_certificate(db, certificate_id=certificate_id)
+    if db_certificate is None:
+        raise HTTPException(status_code=404, detail="Certificate not found")
+    
+    crud.delete_certificate(db, db_certificate=certificate_id)
+    return db_certificate                                  

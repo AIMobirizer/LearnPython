@@ -32,4 +32,12 @@ def read_test_result(test_result_id: int, db: Session = Depends(get_db)):
     if db_test_result is None:
         raise HTTPException(status_code=404, detail="TestResult not found")
     return db_test_result
-                
+
+@router.delete("/{test_result_id}", response_model=schemas.TestResult)
+def delete_test_result(test_result_id: int, db: Session = Depends(get_db)):
+    db_test_result = crud.get_chapter(db, test_result_id=test_result_id)
+    if db_test_result is None:
+        raise HTTPException(status_code=404, detail="TestResult not found")
+    
+    crud.delete_chapter(db, test_result_id=test_result_id)
+    return db_test_result                 

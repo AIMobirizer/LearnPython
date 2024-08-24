@@ -32,4 +32,12 @@ def read_state(state_id: int, db: Session = Depends(get_db)):
     if db_state is None:
         raise HTTPException(status_code=404, detail="State not found")
     return db_state
-                
+
+@router.delete("/{state_id}", response_model=schemas.State)
+def delete_state(state_id: int, db: Session = Depends(get_db)):
+    db_state = crud.get_state(db, state_id=state_id)
+    if db_state is None:
+        raise HTTPException(status_code=404, detail="State not found")
+    
+    crud.delete_state(db, state_id=state_id)
+    return db_state              

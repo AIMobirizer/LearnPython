@@ -32,4 +32,12 @@ def read_chapter_content(chapter_content_id: int, db: Session = Depends(get_db))
     if db_chapter_content is None:
         raise HTTPException(status_code=404, detail="ChapterContent not found")
     return db_chapter_content
-                
+
+@router.delete("/{chapter_content_id}", response_model=schemas.ChapterContent)
+def delete_chapter_content(chapter_content_id: int, db: Session = Depends(get_db)):
+    db_chapter_content = crud.get_chapter_content(db, chapter_content_id=chapter_content_id)
+    if db_chapter_content is None:
+        raise HTTPException(status_code=404, detail="ChapterContent not found")
+    
+    crud.delete_chapter_content(db, chapter_content_id=chapter_content_id)
+    return db_chapter_content                    

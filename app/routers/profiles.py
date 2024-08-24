@@ -32,4 +32,12 @@ def read_profile(profile_id: int, db: Session = Depends(get_db)):
     if db_profile is None:
         raise HTTPException(status_code=404, detail="Profile not found")
     return db_profile
-                
+
+@router.delete("/{profile_id}", response_model=schemas.Profile)
+def delete_profile(profile_id: int, db: Session = Depends(get_db)):
+    db_profile = crud.get_board(db, profile_id=profile_id)
+    if db_profile is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    crud.delete_profile(db, profile_id=profile_id)
+    return db_profile                   

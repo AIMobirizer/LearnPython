@@ -32,4 +32,12 @@ def read_language(language_id: int, db: Session = Depends(get_db)):
     if db_language is None:
         raise HTTPException(status_code=404, detail="Language not found")
     return db_language
-                
+    
+@router.delete("/{language_id}", response_model=schemas.Language)
+def delete_language(language_id: int, db: Session = Depends(get_db)):
+    db_language = crud.get_language(db, language_id=language_id)
+    if db_language is None:
+        raise HTTPException(status_code=404, detail="Language not found")
+    
+    crud.delete_language(db, language_id=language_id)
+    return db_language            

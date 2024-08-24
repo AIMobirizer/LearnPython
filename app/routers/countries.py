@@ -32,4 +32,12 @@ def read_country(country_id: int, db: Session = Depends(get_db)):
     if db_country is None:
         raise HTTPException(status_code=404, detail="Country not found")
     return db_country
-                
+
+@router.delete("/{country_id}", response_model=schemas.Country)
+def delete_country(country_id: int, db: Session = Depends(get_db)):
+    db_country = crud.get_country(db, country_id=country_id)
+    if db_country is None:
+        raise HTTPException(status_code=404, detail="Country not found")
+    
+    crud.delete_country(db, country_id=country_id)
+    return db_country               

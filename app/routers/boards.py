@@ -48,3 +48,11 @@ def read_board(
         raise HTTPException(status_code=404, detail="Board not found")
     return db_board
                 
+@router.delete("/{board_id}", response_model=schemas.Board)
+def delete_board(board_id: int, db: Session = Depends(get_db)):
+    db_board = crud.get_board(db, board_id=board_id)
+    if db_board is None:
+        raise HTTPException(status_code=404, detail="Board not found")
+    
+    crud.delete_board(db, board_id=board_id)
+    return db_board               

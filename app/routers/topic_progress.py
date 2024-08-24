@@ -32,4 +32,12 @@ def read_topic_progress(topic_progress_id: int, db: Session = Depends(get_db)):
     if db_topic_progress is None:
         raise HTTPException(status_code=404, detail="TopicProgress not found")
     return db_topic_progress
-                
+
+@router.delete("/{topic_progress_id}", response_model=schemas.TopicProgress)
+def delete_topic_progress(topic_progress_id: int, db: Session = Depends(get_db)):
+    db_topic_progress = crud.get_topic_progress(db, topic_progress_id=topic_progress_id)
+    if db_topic_progress is None:
+        raise HTTPException(status_code=404, detail="TopicProgress not found")
+    
+    crud.delete_topic_progress(db, db_topic_progress=topic_progress_id)
+    return db_topic_progress                  
